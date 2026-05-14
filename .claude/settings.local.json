@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem \"G:\\\\quiz\\\\app\\\\src\\\\main\\\\java\\\\com\\\\example\\\\quiz\" -Recurse | Where-Object { !$_.PSIsContainer } | ForEach-Object { $_.FullName })"
+    ]
+  }
+}
