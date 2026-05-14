@@ -55,6 +55,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.SubcomposeAsyncImage
 import com.example.quiz.data.model.Article
 import com.example.quiz.data.model.SUPPORTED_COUNTRIES
+import com.example.quiz.data.model.SUPPORTED_LANGUAGES
 import com.example.quiz.viewmodel.NewsViewModel
 
 /**
@@ -130,11 +131,26 @@ fun NewsHomeScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // ── Country Filter ────────────────────────────────────────────────
-            CountryFilterDropdown(
-                selectedCountryName = uiState.selectedCountry.displayName,
-                onCountrySelected   = { viewModel.onCountrySelected(it) }
-            )
+            // ── Country + Language Filters side by side ───────────────────────
+            Row(modifier = Modifier.fillMaxWidth()) {
+                Box(modifier = Modifier.weight(1f)) {
+                    FilterDropdown(
+                        label    = "Country",
+                        selected = uiState.selectedCountry.displayName,
+                        items    = SUPPORTED_COUNTRIES.map { it.displayName },
+                        onItemSelected = { idx -> viewModel.onCountrySelected(SUPPORTED_COUNTRIES[idx]) }
+                    )
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                Box(modifier = Modifier.weight(1f)) {
+                    FilterDropdown(
+                        label    = "Language",
+                        selected = uiState.selectedLanguage.displayName,
+                        items    = SUPPORTED_LANGUAGES.map { it.displayName },
+                        onItemSelected = { idx -> viewModel.onLanguageSelected(SUPPORTED_LANGUAGES[idx]) }
+                    )
+                }
+            }
 
             Spacer(modifier = Modifier.height(12.dp))
 
@@ -222,24 +238,26 @@ private fun SearchBar(
     )
 }
 
-// ── Country Filter Dropdown ───────────────────────────────────────────────────
+// ── Generic Filter Dropdown ───────────────────────────────────────────────────
 
 /**
- * CountryFilterDropdown — a button that opens a dropdown menu of countries.
+ * FilterDropdown — reusable dropdown used for both Country and Language filters.
  *
- * Uses a simple DropdownMenu instead of ExposedDropdownMenuBox
- * because the trigger is a custom Row, not a TextField.
+ * @param label         Header label shown before the selected value (e.g. "Country").
+ * @param selected      The currently selected item's display name.
+ * @param items         Full list of display names to show in the menu.
+ * @param onItemSelected Called with the index of the chosen item.
  */
 @Composable
-private fun CountryFilterDropdown(
-    selectedCountryName: String,
-    onCountrySelected:   (com.example.quiz.data.model.NewsCountry) -> Unit
+private fun FilterDropdown(
+    label:          String,
+    selected:       String,
+    items:          List<String>,
+    onItemSelected: (Int) -> Unit
 ) {
-    // Controls whether the dropdown is open or closed
     var expanded by remember { mutableStateOf(false) }
 
     Box {
-        // The trigger button — tapping it toggles the dropdown
         Row(
             modifier = Modifier
                 .clickable { expanded = true }
@@ -247,29 +265,31 @@ private fun CountryFilterDropdown(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text       = "Country: $selectedCountryName",
+                text       = "$label: $selected",
                 fontWeight = FontWeight.Medium,
-                color      = MaterialTheme.colorScheme.primary
+                fontSize   = 13.sp,
+                color      = MaterialTheme.colorScheme.primary,
+                maxLines   = 1,
+                overflow   = TextOverflow.Ellipsis,
+                modifier   = Modifier.weight(1f, fill = false)
             )
-            Spacer(Modifier.width(4.dp))
             Icon(
-                imageVector = Icons.Filled.ArrowDropDown,
-                contentDescription = "Open country filter",
-                tint = MaterialTheme.colorScheme.primary
+                imageVector        = Icons.Filled.ArrowDropDown,
+                contentDescription = "Open $label filter",
+                tint               = MaterialTheme.colorScheme.primary
             )
         }
 
-        // The dropdown menu — appears below the trigger when expanded = true
         DropdownMenu(
             expanded         = expanded,
-            onDismissRequest = { expanded = false }   // close when tapping outside
+            onDismissRequest = { expanded = false }
         ) {
-            SUPPORTED_COUNTRIES.forEach { country ->
+            items.forEachIndexed { index, name ->
                 DropdownMenuItem(
-                    text    = { Text(country.displayName) },
+                    text    = { Text(name) },
                     onClick = {
-                        onCountrySelected(country)
-                        expanded = false      // close after selection
+                        onItemSelected(index)
+                        expanded = false
                     }
                 )
             }
