@@ -63,26 +63,61 @@ data class Source(
 // ── Country options ───────────────────────────────────────────────────────────
 
 /**
- * NewsCountry — the list of countries supported by gnews.io's country filter.
- *
- * Each entry has:
- *   [displayName] — shown in the UI dropdown (e.g. "Pakistan")
- *   [code]        — sent to the API as the "country" query param (e.g. "pk")
- *
- * gnews.io country codes follow ISO 3166-1 alpha-2 (two-letter country codes).
+ * NewsCountry — a country filter option for gnews.io.
+ * [code] uses ISO 3166-1 alpha-2 (e.g. "pk", "us"). Empty = no filter.
  */
 data class NewsCountry(val displayName: String, val code: String)
 
-/**
- * SUPPORTED_COUNTRIES — the dropdown options for country filtering.
- * Used in NewsHomeScreen and NewsViewModel.
- */
 val SUPPORTED_COUNTRIES = listOf(
-    NewsCountry("All Countries", ""),     // empty code = no country filter
+    NewsCountry("All Countries",   ""),
     NewsCountry("Pakistan",        "pk"),
     NewsCountry("United States",   "us"),
     NewsCountry("United Kingdom",  "gb"),
     NewsCountry("India",           "in"),
     NewsCountry("Saudi Arabia",    "sa"),
     NewsCountry("UAE",             "ae")
+)
+
+// ── Language options ──────────────────────────────────────────────────────────
+
+/**
+ * NewsLanguage — a language filter option for gnews.io.
+ * [code] uses ISO 639-1 two-letter language codes (e.g. "en", "ur").
+ * Empty code = no language filter (API default).
+ */
+data class NewsLanguage(val displayName: String, val code: String)
+
+/**
+ * SUPPORTED_LANGUAGES — full list of languages gnews.io supports,
+ * plus Punjabi added per user request.
+ */
+val SUPPORTED_LANGUAGES = listOf(
+    NewsLanguage("All Languages", ""),
+    NewsLanguage("Arabic",        "ar"),
+    NewsLanguage("Bengali",       "bn"),
+    NewsLanguage("Chinese",       "zh"),
+    NewsLanguage("Dutch",         "nl"),
+    NewsLanguage("English",       "en"),
+    NewsLanguage("French",        "fr"),
+    NewsLanguage("German",        "de"),
+    NewsLanguage("Greek",         "el"),
+    NewsLanguage("Hebrew",        "he"),
+    NewsLanguage("Hindi",         "hi"),
+    NewsLanguage("Indonesian",    "id"),
+    NewsLanguage("Italian",       "it"),
+    NewsLanguage("Japanese",      "ja"),
+    NewsLanguage("Malayalam",     "ml"),
+    NewsLanguage("Marathi",       "mr"),
+    NewsLanguage("Norwegian",     "no"),
+    NewsLanguage("Portuguese",    "pt"),
+    NewsLanguage("Punjabi",       "pa"),   // added per user request
+    NewsLanguage("Romanian",      "ro"),
+    NewsLanguage("Russian",       "ru"),
+    NewsLanguage("Spanish",       "es"),
+    NewsLanguage("Swedish",       "sv"),
+    NewsLanguage("Tamil",         "ta"),
+    NewsLanguage("Telugu",        "te"),
+    NewsLanguage("Turkish",       "tr"),
+    NewsLanguage("Ukrainian",     "uk"),
+    NewsLanguage("Urdu",          "ur")
 )
