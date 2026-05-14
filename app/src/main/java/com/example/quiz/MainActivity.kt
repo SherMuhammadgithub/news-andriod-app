@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.quiz.navigation.NewsNavGraph
 import com.example.quiz.ui.theme.QuizTheme
 
@@ -23,6 +24,11 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // installSplashScreen() must be called BEFORE setContent and BEFORE enableEdgeToEdge.
+        // It reads Theme.Quiz.SplashScreen from the manifest, shows the branded launch
+        // screen during cold start, then switches to postSplashScreenTheme (Theme.Quiz).
+        installSplashScreen()
 
         // enableEdgeToEdge() lets the app draw behind the status bar and nav bar
         enableEdgeToEdge()

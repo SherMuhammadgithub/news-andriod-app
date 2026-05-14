@@ -6,4 +6,21 @@
     </style>
 
     <style name="Theme.Quiz" parent="Base.Theme.Quiz" />
+
+    <!--
+        Splash screen theme — applied to MainActivity in AndroidManifest.xml.
+        The SplashScreen API shows this during cold start (before the first Compose frame).
+        postSplashScreenTheme switches back to Theme.Quiz once the app is ready.
+    -->
+    <style name="Theme.Quiz.SplashScreen" parent="Theme.SplashScreen">
+        <!-- Background color behind the icon during launch -->
+        <item name="windowSplashScreenBackground">#1565C0</item>
+        <!-- Custom news/newspaper icon shown in the centre of the splash -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_news</item>
+        <!-- Match circle color to splash background so the circle is invisible,
+             leaving the white icon floating directly on blue — works on all API levels -->
+        <item name="windowSplashScreenIconBackgroundColor">#1565C0</item>
+        <!-- Switch to normal app theme after splash finishes -->
+        <item name="postSplashScreenTheme">@style/Theme.Quiz</item>
+    </style>
 </resources>

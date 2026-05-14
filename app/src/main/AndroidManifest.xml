@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Internet permission required for Firebase Firestore and Retrofit -->
+    <!-- Internet permission required for Retrofit API calls to gnews.io -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -17,13 +17,14 @@
 
         <!--
             Single Activity Architecture with Compose Navigation.
-            All screens (Splash, List, Form, Detail) are Composables managed by
+            All screens (Splash, Home, Detail) are Composables managed by
             NavHost inside MainActivity — no separate Activity per screen needed.
         -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.Quiz.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
