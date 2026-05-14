@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "PowerShell(Get-ChildItem \"G:\\\\quiz\\\\app\\\\src\\\\main\\\\java\\\\com\\\\example\\\\quiz\" -Recurse | Where-Object { !$_.PSIsContainer } | ForEach-Object { $_.FullName })"
+      "PowerShell(Get-ChildItem \"G:\\\\quiz\\\\app\\\\src\\\\main\\\\java\\\\com\\\\example\\\\quiz\" -Recurse | Where-Object { !$_.PSIsContainer } | ForEach-Object { $_.FullName })",
+      "Bash(./gradlew assembleDebug)",
+      "Bash(gh auth *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "Bash(gh release create v1.0.0 'app/build/outputs/apk/debug/app-debug.apk#NewsFlash-v1.0.0-debug.apk' --title 'NewsFlash v1.0.0' --notes ' *)",
+      "Bash(git commit --amend -m ' *)"
     ]
   }
 }
